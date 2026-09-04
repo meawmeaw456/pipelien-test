@@ -27,6 +27,7 @@ env:
   IMAGE_REF: demo-hardcoded-secret:ci     # image tag to build & scan
   DOCKERFILE: Dockerfile                  # path to the Dockerfile
   DD_PRODUCT: "Demo Hardcoded Secret"     # DefectDojo product name
+  DD_PRODUCT_TYPE: "Research and Development"  # DefectDojo product type (pour l'auto-création du produit)
   DD_ENGAGEMENT: "Automated Scans"        # DefectDojo engagement name
 # --------------------------------------------------
 
@@ -416,6 +417,7 @@ jobs:
                 -F "scan_type=$1" \
                 -F "product_name=$DD_PRODUCT" \
                 -F "engagement_name=$DD_ENGAGEMENT" \
+                -F "product_type_name=$DD_PRODUCT_TYPE"
                 -F "test_title=$2" \
                 -F "auto_create_context=true" \
                 -F "close_old_findings=true" \
