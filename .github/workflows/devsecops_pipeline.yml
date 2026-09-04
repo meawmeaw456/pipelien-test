@@ -417,7 +417,7 @@ jobs:
                 -F "scan_type=$1" \
                 -F "product_name=$DD_PRODUCT" \
                 -F "engagement_name=$DD_ENGAGEMENT" \
-                -F "product_type_name=$DD_PRODUCT_TYPE"
+                -F "product_type_name=$DD_PRODUCT_TYPE" \
                 -F "test_title=$2" \
                 -F "auto_create_context=true" \
                 -F "close_old_findings=true" \
