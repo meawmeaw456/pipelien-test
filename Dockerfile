@@ -1,7 +1,7 @@
 FROM python:3.12-slim
 
 # Met à jour pip pour corriger les CVE du pip embarqué dans l'image de base
-RUN pip install --no-cache-dir --upgrade pip
+RUN pip install --no-cache-dir --upgrade pip "setuptools>=78.1.1" "msgpack>=1.2.1"
 
 WORKDIR /app
 
