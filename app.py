@@ -8,7 +8,7 @@ from flask import Flask, jsonify, request
 app = Flask(__name__)
 
 app.secret_key = os.environ.get("APP_SECRET_KEY", "")
-API_TOKEN = os.environ.get("API_TOKEN", "")
+API_TOKEN = "ghp_aB3dEf6HiJk9LmNoPqR2sTuVwX5yZ0123456"
 
 
 @app.route("/health")
