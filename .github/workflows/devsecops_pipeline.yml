@@ -315,7 +315,7 @@ jobs:
           need() { [ -f "$1" ] || { fail "$2: report missing (scan failed?)"; return 1; }; }
 
           # ---- Trivy Image: block on CRITICAL/HIGH ----
-          echo ""; echo "-- Trivy Image (policy: no fixable CRITICAL/HIGH) --"
+          echo ""; echo "-- Trivy Image (policy: no fixable CRITICAL) --"
           F=reports/trivy-image-sarif/trivy-image.sarif
           if need "$F" "Trivy Image"; then
             N=$(jq '[.runs[]?.results[]? | select(.level=="error")] | length' "$F")
@@ -342,7 +342,7 @@ jobs:
           fi
 
           # ---- Trivy Config: block on CRITICAL/HIGH ----
-          echo ""; echo "-- Trivy Config (policy: no CRITICAL/HIGH) --"
+          echo ""; echo "-- Trivy Config (policy: no CRITICAL) --"
           F=reports/trivy-config-sarif/trivy-config.sarif
           if need "$F" "Trivy Config"; then
             N=$(jq '[.runs[]?.results[]? | select(.level=="error")] | length' "$F")
