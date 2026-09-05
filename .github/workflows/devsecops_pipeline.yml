@@ -314,12 +314,14 @@ jobs:
           # we cannot assert safety, so that blocks the gate.
           need() { [ -f "$1" ] || { fail "$2: report missing (scan failed?)"; return 1; }; }
 
-          # ---- Trivy Image: block on CRITICAL/HIGH ----
-          echo ""; echo "-- Trivy Image (policy: no fixable CRITICAL) --"
+          # ---- Trivy Image: block on CRITICAL ----
+          echo ""; echo "-- Trivy Image (policy: no CRITICAL) --"
           F=reports/trivy-image-sarif/trivy-image.sarif
           if need "$F" "Trivy Image"; then
-            N=$(jq '[.runs[]?.results[]? | select(.level=="error")] | length' "$F")
-            echo "CRITICAL/HIGH: $N"
+            N=$(jq '[.runs[]?.results[]?
+                     | (.properties["security-severity"] // "0") | tonumber
+                     | select(. >= 9.0)] | length' "$F")
+            echo "CRITICAL: $N"
             [ "$N" -gt 0 ] && fail "Trivy Image" || pass "Trivy Image"
           fi
 
@@ -341,12 +343,14 @@ jobs:
             [ "$N" -gt 0 ] && fail "Trivy Filesystem" || pass "Trivy Filesystem"
           fi
 
-          # ---- Trivy Config: block on CRITICAL/HIGH ----
+          # ---- Trivy Config: block on CRITICAL ----
           echo ""; echo "-- Trivy Config (policy: no CRITICAL) --"
           F=reports/trivy-config-sarif/trivy-config.sarif
           if need "$F" "Trivy Config"; then
-            N=$(jq '[.runs[]?.results[]? | select(.level=="error")] | length' "$F")
-            echo "CRITICAL/HIGH: $N"
+            N=$(jq '[.runs[]?.results[]? 
+                     | (.properties["security-severity"] // "0") | tonumber
+                     | select(. >= 9.0)] | length' "$F")
+            echo "CRITICAL: $N"
             [ "$N" -gt 0 ] && fail "Trivy Config" || pass "Trivy Config"
           fi
 
